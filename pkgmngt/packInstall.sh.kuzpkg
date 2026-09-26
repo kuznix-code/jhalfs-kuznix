@@ -1,0 +1,261 @@
+#!/bin/bash
+
+# packInstall.sh.kuzpkg
+
+#
+
+# Kuzpkg version of the LFS packInstall helper.
+
+#
+
+# Functions:
+
+# packInstall  - pack and install the contents of $PKG_DEST
+
+# warpInstall  - identical operation to packInstall
+
+#
+
+# Variables available from JHALFS:
+
+# PKGDIR       Source package/build directory
+
+# PKG_DEST     Temporary package destination tree
+
+#
+
+# Other variables may be supplied through the environment.
+
+packInstall() {
+
+```
+# ------------------------------------------------------------------
+# Determine package name and version
+# ------------------------------------------------------------------
+
+local PCKGVRS
+local TGTPKG
+local PACKAGE
+local VERSION
+local ARCH
+local ARCHIVE_NAME
+
+PCKGVRS=$(basename "$PKGDIR")
+TGTPKG=$(basename "$PKG_DEST")
+
+PACKAGE=$(echo "$TGTPKG" |
+    sed 's/^[0-9]\{3,4\}-//' |
+    sed 's/^[0-9]\{2\}-//')
+
+# The package version is obtained from the package directory name.
+# LFS package names are not completely normalized, so retain the
+# special cases used by the original packInstall implementation.
+
+case "$PCKGVRS" in
+
+    expect*|tcl*)
+        VERSION=$(echo "$PCKGVRS" |
+            sed 's/^[^0-9]*//')
+        ;;
+
+    unzip*)
+        VERSION=$(echo "$PCKGVRS" |
+            sed 's/^[^0-9]*\([0-9]\)\([0-9]\)/\1.\2/')
+        ;;
+
+    docbook-xml)
+        VERSION=4.5
+        ;;
+
+    *)
+        VERSION=$(echo "$PCKGVRS" |
+            sed 's/^.*[-_]\([0-9]\)/\1/' |
+            sed 's/_/./g')
+        ;;
+
+esac
+
+# ------------------------------------------------------------------
+# Determine architecture
+# ------------------------------------------------------------------
+
+case "$(uname -m)" in
+    x86_64)
+        ARCH=x86_64
+        ;;
+
+    i686|i386|i486|i586)
+        ARCH=i686
+        ;;
+
+    aarch64)
+        ARCH=aarch64
+        ;;
+
+    armv7l|armv6l)
+        ARCH=armv7h
+        ;;
+
+    *)
+        ARCH=$(uname -m)
+        ;;
+esac
+
+# ------------------------------------------------------------------
+# Kuzpkg package filename
+#
+# Native Kuzpkg package format:
+#
+#   package-version-release-architecture.kuzpkg.tar.zst
+#
+# ------------------------------------------------------------------
+
+local PKGREL=1
+
+ARCHIVE_NAME="${PACKAGE}-${VERSION}-${PKGREL}-${ARCH}.kuzpkg.tar.zst"
+
+# ------------------------------------------------------------------
+# Enter the temporary installation tree
+# ------------------------------------------------------------------
+
+pushd "$PKG_DEST" || return 1
+
+# The info directory already exists on the LFS system and must not
+# be included in individual packages.
+
+rm -fv ./usr/share/info/dir
+
+# ------------------------------------------------------------------
+# Prepare source/build directory
+# ------------------------------------------------------------------
+
+rm -rf "/sources/$PACKAGE"
+
+mkdir -p "/sources/$PACKAGE/src"
+
+# The package is built as the unprivileged builder user.
+
+chown -R builder:builder "/sources/$PACKAGE"
+
+# Move the installed tree into the package source directory.
+
+shopt -s dotglob nullglob
+
+mv -- * "/sources/$PACKAGE/src/"
+
+shopt -u dotglob nullglob
+
+chown -R builder:builder "$PKG_DEST"
+
+chmod -R o+r "/sources/$PACKAGE"
+
+# ------------------------------------------------------------------
+# Create PKGBUILD
+# ------------------------------------------------------------------
+
+cat > PKGBUILD <<EOF
+```
+
+pkgname='$PACKAGE'
+pkgver='$VERSION'
+pkgrel='$PKGREL'
+pkgdesc='$PACKAGE'
+arch=('$ARCH')
+
+package() {
+cp -a ./* "$pkgdir/"
+}
+EOF
+
+```
+# ------------------------------------------------------------------
+# Build the Kuzpkg package
+# ------------------------------------------------------------------
+#
+# makepkg is retained because Kuzpkg uses the pacman-derived
+# PKGBUILD/makepkg packaging model.
+#
+# PKGEXT is explicitly set so that the resulting package is a
+# native .kuzpkg.tar.zst archive.
+#
+# The LFS bootstrap does not yet have package-signing infrastructure,
+# so integrity checking is skipped here.
+
+if ! su builder -c \
+    "cd '$PWD' && \
+     PKGEXT='.kuzpkg.tar.zst' \
+     PKGDEST='/var/lib/packages' \
+     makepkg --clean --skipinteg"
+then
+    echo "packInstall: failed to build $ARCHIVE_NAME" >&2
+    popd >/dev/null || true
+    return 1
+fi
+
+# ------------------------------------------------------------------
+# Verify that the expected package was produced
+# ------------------------------------------------------------------
+
+if [ ! -f "/var/lib/packages/$ARCHIVE_NAME" ]; then
+    echo "packInstall: package not found:" >&2
+    echo "  /var/lib/packages/$ARCHIVE_NAME" >&2
+    popd >/dev/null || true
+    return 1
+fi
+
+# ------------------------------------------------------------------
+# Install using Kuzpkg
+# ------------------------------------------------------------------
+
+if ! kuzpkg -U --noconfirm \
+    "/var/lib/packages/$ARCHIVE_NAME"
+then
+
+    # Retry while allowing files from the package to overwrite files
+    # already present in the temporary LFS system.
+
+    if ! kuzpkg -U --noconfirm \
+        --overwrite '*' \
+        "/var/lib/packages/$ARCHIVE_NAME"
+    then
+        echo "packInstall: failed to install $ARCHIVE_NAME" >&2
+        popd >/dev/null || true
+        return 1
+    fi
+fi
+
+# ------------------------------------------------------------------
+# Return to the original directory.
+#
+# JHALFS removes $PKG_DEST immediately after this function returns,
+# so leaving the temporary tree is important.
+# ------------------------------------------------------------------
+
+popd || return 1
+
+return 0
+```
+
+}
+
+# ----------------------------------------------------------------------
+
+# warpInstall
+
+#
+
+# warpInstall intentionally performs exactly the same operation as
+
+# packInstall.
+
+#
+
+# Keeping this as a function rather than a simple shell alias means
+
+# callers can invoke either name from JHALFS scripts.
+
+# ----------------------------------------------------------------------
+
+warpInstall() {
+packInstall "$@"
+}
