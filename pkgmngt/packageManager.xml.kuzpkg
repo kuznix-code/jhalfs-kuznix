@@ -1,170 +1,288 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--  Above is a mandatory header for xml files. It must be the first
-line in the file. Change encoding to the one you use on your computer -->
 
-<!-- Mandatory DOCTYPE declaration. Fill free to add entities,
-but no external entities in local files, since they would not
-be accessible from JHALFSDIR. Change the document type `article' to
-book if you prefer. That slightly changes the aspect if you render
-it in html -->
+<!--
+  Kuznix JHALFS package-manager extension
+
+  Package manager:
+    Kuzpkg 0.1.0-alpha.1
+
+  Native package format:
+    .kuzpkg.tar.zst
+
+  This file is intended for the JHALFS pkgmngt framework.
+-->
+
 <!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
   "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
-<!ENTITY libarchive-version "3.6.1">
-<!ENTITY curl-version       "7.83.1">
-<!ENTITY fakeroot-version   "1.29">
-<!ENTITY pacman-version     "6.0.1">
-<!ENTITY libarchive-url "https://github.com/libarchive/libarchive/releases/download/v&libarchive-version;/libarchive-&libarchive-version;.tar.xz">
-<!ENTITY curl-url       "https://curl.se/download/curl-&curl-version;.tar.xz">
-<!ENTITY fakeroot-url   "http://deb.debian.org/debian/pool/main/f/fakeroot/fakeroot_&fakeroot-version;.orig.tar.gz">
-<!ENTITY pacman-url     "https://sources.archlinux.org/other/pacman/pacman-&pacman-version;.tar.xz">
-<!ENTITY curl-md5       "08c6d9c25d9cf8d17be28363753e42ca">
-<!ENTITY libarchive-md5 "9465f7995649c9ea84854a7fd8c76f30">
-<!ENTITY fakeroot-md5   "cab9604a7dc1d58346e0d15bb285bd0f">
-<!ENTITY pacman-md5     "f71e6f06867749735960d0c1d199d375">
+<!ENTITY kuzpkg-version "0.1.0-alpha.1">
+
+<!ENTITY kuzpkg-url
+  "https://github.com/Kuznix-Team/kuzpkg">
+
+<!ENTITY kuzpkg-package-format ".kuzpkg.tar.zst">
+
+<!ENTITY zlib-version "1.3.2">
+
+<!ENTITY libcap-version "2.78">
+
+<!ENTITY libffi-version "3.8.0">
+
+<!ENTITY python-version "3.14.7">
+
+<!ENTITY ninja-version "1.13.2">
+
+<!ENTITY pkgconf-version "3.0.7">
+
+<!ENTITY meson-version "1.12.0">
+
+<!ENTITY openssl-version "4.0.2">
+
+<!ENTITY curl-version "8.22.0">
+
+<!ENTITY libarchive-version "3.8.9">
+
+<!ENTITY fakeroot-version "2.1.4">
+
+<!ENTITY zlib-url
+  "https://zlib.net/fossils/zlib-1.3.2.tar.gz">
+
+<!ENTITY libcap-url
+  "https://www.kernel.org/pub/linux/libs/security/linux-privs/libcap2/libcap-2.78.tar.xz">
+
+<!ENTITY libffi-url
+  "https://github.com/libffi/libffi/releases/download/v3.8.0/libffi-3.8.0.tar.gz">
+
+<!ENTITY python-url
+  "https://www.python.org/ftp/python/3.14.7/Python-3.14.7.tar.xz">
+
+<!ENTITY ninja-url
+  "https://github.com/ninja-build/ninja/archive/v1.13.2/ninja-1.13.2.tar.gz">
+
+<!ENTITY pkgconf-url
+  "https://distfiles.ariadne.space/pkgconf/pkgconf-3.0.7.tar.xz">
+
+<!ENTITY meson-url
+  "https://github.com/mesonbuild/meson/releases/download/1.12.0/meson-1.12.0.tar.gz">
+
+<!ENTITY openssl-url
+  "https://github.com/openssl/openssl/releases/download/openssl-4.0.2/openssl-4.0.2.tar.gz">
+
+<!ENTITY curl-url
+  "https://curl.se/download/curl-8.22.0.tar.xz">
+
+<!ENTITY libarchive-url
+  "https://github.com/libarchive/libarchive/releases/download/v3.8.9/libarchive-3.8.9.tar.xz">
+
+<!ENTITY fakeroot-url
+  "https://deb.debian.org/debian/pool/main/f/fakeroot/fakeroot_2.1.4.orig.tar.xz">
+
+<!ENTITY zlib-md5 "a1e6c958597af3c67d162995a342138a">
+
+<!ENTITY libcap-md5 "0ff11419aa4813c0a0f84fe67bf3b39e">
+
+<!ENTITY libffi-md5 "96fe46f2a7bb82559b35a268a2c000ba">
+
+<!ENTITY python-md5 "a4c4c2991b4126e227073c2d9445f432">
+
+<!ENTITY ninja-md5 "76c00637fde44909cd7d56f8d73f2042">
+
+<!ENTITY pkgconf-md5 "dd1ba6724bc1792b55600d54346ce5ba">
+
+<!ENTITY meson-md5 "9f943c267d63016012efcb0f31ecdd7d">
+
+<!ENTITY openssl-md5 "9d256ddfa581e1982c005ab03890754d">
+
+<!ENTITY curl-md5 "f0db57e9236e070629bc711cf646cebe">
+
+<!ENTITY libarchive-md5 "535e3afec5f61d493f0b1b9e8bcf7539">
+
 <!ENTITY % general-entities SYSTEM "BOOK/general.ent">
+
 %general-entities;
 ]>
 
-
-<!-- The first markup should be the one defined in the DOCTYPE DECLARATION -->
 <article>
 
-<!-- First section for the tarball download address.
-Only the next four lines are mandatory, but you can add anything
-to make the text look more like the LFS book.
-Do not change  anything, except the url and the md5 checksum. -->
+<!-- ================================================================ -->
+
+<!-- Package downloads                                                 -->
+
+<!-- ================================================================ -->
+
 <sect1 id="package">
   <?dbhtml filename="package.html"?>
 
   <title>All Packages</title>
-        <para>Download: <ulink url="&curl-url;"/></para>
-        <para>MD5 sum: <literal>&curl-md5;</literal></para>
-        <para>Download: <ulink url="&fakeroot-url;"/></para>
-        <para>MD5 sum: <literal>&fakeroot-md5;</literal></para>
-        <para>Download: <ulink url="&libarchive-url;"/></para>
-        <para>MD5 sum: <literal>&libarchive-md5;</literal></para>
-        <para>Download: <ulink url="&pacman-url;"/></para>
-        <para>MD5 sum: <literal>&pacman-md5;</literal></para>
-</sect1>
 
-<!-- If needed, uncomment and edit this:
-<sect1 id="patches">
-        <para>Download: <ulink url="somepatch-url"/></para>
-        <para>MD5 sum: <literal>somepatch-md5</literal></para>
-</sect1>
--->
+  <para>
+    This package-management extension installs Kuzpkg
+    <literal>&kuzpkg-version;</literal> into the LFS system.
+    Kuzpkg uses
+    <literal>&kuzpkg-package-format;</literal>
+    as its native binary package format.
+  </para>
 
-<!-- pacman now needs ninja and meson, which needs
-     Python rebuilt with libffi and zlib. Needs also pkg-config -->
-<sect1 id="ch-chroot-libarchive" role="wrap">
-  <?dbhtml filename="libarchive.html"?>
+  <para>
+    The package manager is maintained by the Kuznix project:
+    <ulink url="&kuzpkg-url;"/>
+  </para>
 
-  <sect1info condition="script">
-    <productname>libarchive</productname>
-    <productnumber>&libarchive-version;</productnumber>
-    <address>&libarchive-url;</address>
-  </sect1info>
+  <sect2>
+    <title>Compression and archive support</title>
 
-  <title>Libarchive-&libarchive-version;</title>
+```
+<para>
+  Zlib <literal>&zlib-version;</literal>
+</para>
+<para>
+  Download:
+  <ulink url="&zlib-url;"/>
+</para>
+<para>
+  MD5 sum:
+  <literal>&zlib-md5;</literal>
+</para>
 
-  <sect2 role="installation">
-    <title/>
-<screen><userinput remap="configure">./configure --prefix=/usr \
-            --without-bz2lib \
-            --without-xml2   \
-            --enable-bsdtar=static \
-            --enable-bsdcpio=static</userinput></screen>
-<screen><userinput remap="make">make</userinput></screen>
-<screen><userinput remap="install">make install</userinput></screen>
+<para>
+  Libarchive <literal>&libarchive-version;</literal>
+</para>
+<para>
+  Download:
+  <ulink url="&libarchive-url;"/>
+</para>
+<para>
+  MD5 sum:
+  <literal>&libarchive-md5;</literal>
+</para>
+```
+
+  </sect2>
+
+  <sect2>
+    <title>Network and cryptographic support</title>
+
+```
+<para>
+  OpenSSL <literal>&openssl-version;</literal>
+</para>
+<para>
+  Download:
+  <ulink url="&openssl-url;"/>
+</para>
+<para>
+  MD5 sum:
+  <literal>&openssl-md5;</literal>
+</para>
+
+<para>
+  Curl <literal>&curl-version;</literal>
+</para>
+<para>
+  Download:
+  <ulink url="&curl-url;"/>
+</para>
+<para>
+  MD5 sum:
+  <literal>&curl-md5;</literal>
+</para>
+```
+
+  </sect2>
+
+  <sect2>
+    <title>Build dependencies</title>
+
+```
+<para>
+  libcap <literal>&libcap-version;</literal>
+</para>
+<para>
+  Download:
+  <ulink url="&libcap-url;"/>
+</para>
+<para>
+  MD5 sum:
+  <literal>&libcap-md5;</literal>
+</para>
+
+<para>
+  libffi <literal>&libffi-version;</literal>
+</para>
+<para>
+  Download:
+  <ulink url="&libffi-url;"/>
+</para>
+<para>
+  MD5 sum:
+  <literal>&libffi-md5;</literal>
+</para>
+
+<para>
+  Python <literal>&python-version;</literal>
+</para>
+<para>
+  Download:
+  <ulink url="&python-url;"/>
+</para>
+<para>
+  MD5 sum:
+  <literal>&python-md5;</literal>
+</para>
+
+<para>
+  Ninja <literal>&ninja-version;</literal>
+</para>
+<para>
+  Download:
+  <ulink url="&ninja-url;"/>
+</para>
+<para>
+  MD5 sum:
+  <literal>&ninja-md5;</literal>
+</para>
+
+<para>
+  Pkgconf <literal>&pkgconf-version;</literal>
+</para>
+<para>
+  Download:
+  <ulink url="&pkgconf-url;"/>
+</para>
+<para>
+  MD5 sum:
+  <literal>&pkgconf-md5;</literal>
+</para>
+
+<para>
+  Meson <literal>&meson-version;</literal>
+</para>
+<para>
+  Download:
+  <ulink url="&meson-url;"/>
+</para>
+<para>
+  MD5 sum:
+  <literal>&meson-md5;</literal>
+</para>
+
+<para>
+  Fakeroot <literal>&fakeroot-version;</literal>
+</para>
+<para>
+  Download:
+  <ulink url="&fakeroot-url;"/>
+</para>
+```
+
   </sect2>
 
 </sect1>
 
-<sect1 id="ch-chroot-openssl" role="wrap">
-  <?dbhtml filename="openssl.html"?>
+<!-- ================================================================ -->
 
-  <sect1info condition="script">
-    <productname>openssl</productname>
-    <productnumber>&openssl-version;</productnumber>
-    <address>&openssl-url;</address>
-  </sect1info>
+<!-- Zlib                                                               -->
 
-  <title>openssl-&openssl-version;</title>
-
-  <sect2 role="installation">
-    <title/>
-<screen><userinput remap="configure">
-./config --prefix=/usr         \
-         --openssldir=/etc/ssl \
-         --libdir=lib          \
-         shared</userinput></screen>
-<screen><userinput remap="make">make</userinput></screen>
-<screen><userinput remap="install">make install</userinput></screen>
-  </sect2>
-
-</sect1>
-
-<sect1 id="ch-chroot-curl" role="wrap">
-  <?dbhtml filename="curl.html"?>
-
-  <sect1info condition="script">
-    <productname>curl</productname>
-    <productnumber>&curl-version;</productnumber>
-    <address>&curl-url;</address>
-  </sect1info>
-
-  <title>Curl-&curl-version;</title>
-
-  <sect2 role="installation">
-    <title/>
-<screen><userinput remap="configure">./configure --prefix=/usr \
-    --disable-static \
-    --with-openssl</userinput></screen>
-<screen><userinput remap="make">make</userinput></screen>
-<screen><userinput remap="install">make install</userinput></screen>
-  </sect2>
-
-</sect1>
-
-<sect1 id="ch-chroot-libcap" role="wrap">
-  <?dbhtml filename="libcap.html"?>
-
-  <sect1info condition="script">
-    <productname>libcap</productname>
-    <productnumber>&libcap-version;</productnumber>
-    <address>&libcap-url;</address>
-  </sect1info>
-
-  <title>libcap-&libcap-version;</title>
-
-  <sect2 role="installation">
-    <title/>
-<screen><userinput remap="pre">sed -i '/install -m.*STA/d' libcap/Makefile</userinput></screen>
-<screen><userinput remap="make">make prefix=/usr lib=lib</userinput></screen>
-<screen><userinput remap="install">make lib=lib prefix=/usr install</userinput></screen>
-  </sect2>
-
-</sect1>
-
-<sect1 id="ch-chroot-fakeroot" role="wrap">
-  <?dbhtml filename="fakeroot.html"?>
-
-  <sect1info condition="script">
-    <productname>fakeroot</productname>
-    <productnumber>&fakeroot-version;</productnumber>
-    <address>&fakeroot-url;</address>
-  </sect1info>
-
-  <title>fakeroot-&fakeroot-version;</title>
-
-  <sect2 role="installation">
-    <title/>
-<screen><userinput remap="configure">./configure --prefix=/usr</userinput></screen>
-<screen><userinput remap="make">make</userinput></screen>
-<screen><userinput remap="install">make install</userinput></screen>
-  </sect2>
-
-</sect1>
+<!-- ================================================================ -->
 
 <sect1 id="ch-chroot-zlib" role="wrap">
   <?dbhtml filename="zlib.html"?>
@@ -179,13 +297,58 @@ Do not change  anything, except the url and the md5 checksum. -->
 
   <sect2 role="installation">
     <title/>
+
+```
 <screen><userinput remap="configure">./configure --prefix=/usr</userinput></screen>
+
 <screen><userinput remap="make">make</userinput></screen>
+
 <screen><userinput remap="install">make install
+```
+
 rm -fv /usr/lib/libz.a</userinput></screen>
+
   </sect2>
 
 </sect1>
+
+<!-- ================================================================ -->
+
+<!-- libcap                                                             -->
+
+<!-- ================================================================ -->
+
+<sect1 id="ch-chroot-libcap" role="wrap">
+  <?dbhtml filename="libcap.html"?>
+
+  <sect1info condition="script">
+    <productname>libcap</productname>
+    <productnumber>&libcap-version;</productnumber>
+    <address>&libcap-url;</address>
+  </sect1info>
+
+  <title>libcap-&libcap-version;</title>
+
+  <sect2 role="installation">
+    <title/>
+
+```
+<screen><userinput remap="pre">sed -i '/install -m.*STA/d' libcap/Makefile</userinput></screen>
+
+<screen><userinput remap="make">make prefix=/usr lib=lib</userinput></screen>
+
+<screen><userinput remap="install">make lib=lib prefix=/usr install</userinput></screen>
+```
+
+  </sect2>
+
+</sect1>
+
+<!-- ================================================================ -->
+
+<!-- libffi                                                              -->
+
+<!-- ================================================================ -->
 
 <sect1 id="ch-chroot-libffi" role="wrap">
   <?dbhtml filename="libffi.html"?>
@@ -200,12 +363,136 @@ rm -fv /usr/lib/libz.a</userinput></screen>
 
   <sect2 role="installation">
     <title/>
-<screen><userinput remap="configure">./configure --prefix=/usr --disable-static --with-gcc-arch=native --disable-exec-static-tramp</userinput></screen>
+
+```
+<screen><userinput remap="configure">./configure \
+--prefix=/usr \
+--disable-static \
+--with-gcc-arch=native \
+--disable-exec-static-tramp</userinput></screen>
+
 <screen><userinput remap="make">make</userinput></screen>
+
 <screen><userinput remap="install">make install</userinput></screen>
+```
+
   </sect2>
 
 </sect1>
+
+<!-- ================================================================ -->
+
+<!-- OpenSSL                                                            -->
+
+<!-- ================================================================ -->
+
+<sect1 id="ch-chroot-openssl" role="wrap">
+  <?dbhtml filename="openssl.html"?>
+
+  <sect1info condition="script">
+    <productname>OpenSSL</productname>
+    <productnumber>&openssl-version;</productnumber>
+    <address>&openssl-url;</address>
+  </sect1info>
+
+  <title>OpenSSL-&openssl-version;</title>
+
+  <sect2 role="installation">
+    <title/>
+
+```
+<screen><userinput remap="configure">./config \
+--prefix=/usr \
+--openssldir=/etc/ssl \
+--libdir=lib \
+shared</userinput></screen>
+
+<screen><userinput remap="make">make</userinput></screen>
+
+<screen><userinput remap="install">make install</userinput></screen>
+```
+
+  </sect2>
+
+</sect1>
+
+<!-- ================================================================ -->
+
+<!-- libarchive                                                         -->
+
+<!-- ================================================================ -->
+
+<sect1 id="ch-chroot-libarchive" role="wrap">
+  <?dbhtml filename="libarchive.html"?>
+
+  <sect1info condition="script">
+    <productname>libarchive</productname>
+    <productnumber>&libarchive-version;</productnumber>
+    <address>&libarchive-url;</address>
+  </sect1info>
+
+  <title>libarchive-&libarchive-version;</title>
+
+  <sect2 role="installation">
+    <title/>
+
+```
+<screen><userinput remap="configure">./configure \
+--prefix=/usr \
+--disable-static \
+--without-xml2</userinput></screen>
+
+<screen><userinput remap="make">make</userinput></screen>
+
+<screen><userinput remap="install">make install</userinput></screen>
+```
+
+  </sect2>
+
+</sect1>
+
+<!-- ================================================================ -->
+
+<!-- curl                                                               -->
+
+<!-- ================================================================ -->
+
+<sect1 id="ch-chroot-curl" role="wrap">
+  <?dbhtml filename="curl.html"?>
+
+  <sect1info condition="script">
+    <productname>curl</productname>
+    <productnumber>&curl-version;</productnumber>
+    <address>&curl-url;</address>
+  </sect1info>
+
+  <title>curl-&curl-version;</title>
+
+  <sect2 role="installation">
+    <title/>
+
+```
+<screen><userinput remap="configure">./configure \
+--prefix=/usr \
+--disable-static \
+--with-openssl \
+--enable-threaded-resolver \
+--with-ca-path=/etc/ssl/certs</userinput></screen>
+
+<screen><userinput remap="make">make</userinput></screen>
+
+<screen><userinput remap="install">make install</userinput></screen>
+```
+
+  </sect2>
+
+</sect1>
+
+<!-- ================================================================ -->
+
+<!-- Python                                                             -->
+
+<!-- ================================================================ -->
 
 <sect1 id="ch-chroot-python" role="wrap">
   <?dbhtml filename="Python-pass2.html"?>
@@ -220,234 +507,125 @@ rm -fv /usr/lib/libz.a</userinput></screen>
 
   <sect2 role="installation">
     <title/>
-<screen><userinput remap="configure">./configure --prefix=/usr --without-ensurepip --enable-shared</userinput></screen>
+
+```
+<screen><userinput remap="configure">./configure \
+--prefix=/usr \
+--enable-shared \
+--without-ensurepip</userinput></screen>
+
 <screen><userinput remap="make">make</userinput></screen>
+
 <screen><userinput remap="install">make install</userinput></screen>
+```
+
   </sect2>
 
 </sect1>
+
+<!-- ================================================================ -->
+
+<!-- Ninja                                                              -->
+
+<!-- ================================================================ -->
 
 <sect1 id="ch-chroot-ninja" role="wrap">
   <?dbhtml filename="ninja.html"?>
 
   <sect1info condition="script">
-    <productname>ninja</productname>
+    <productname>Ninja</productname>
     <productnumber>&ninja-version;</productnumber>
     <address>&ninja-url;</address>
   </sect1info>
 
-  <title>ninja-&ninja-version;</title>
+  <title>Ninja-&ninja-version;</title>
 
   <sect2 role="installation">
     <title/>
+
+```
 <screen><userinput remap="configure">python3 configure.py --bootstrap</userinput></screen>
+
 <screen><userinput remap="install">install -vm755 ninja /usr/bin/</userinput></screen>
+```
+
   </sect2>
 
 </sect1>
+
+<!-- ================================================================ -->
+
+<!-- Pkgconf                                                             -->
+
+<!-- ================================================================ -->
+
+<sect1 id="ch-chroot-pkgconf" role="wrap">
+  <?dbhtml filename="pkgconf.html"?>
+
+  <sect1info condition="script">
+    <productname>Pkgconf</productname>
+    <productnumber>&pkgconf-version;</productnumber>
+    <address>&pkgconf-url;</address>
+  </sect1info>
+
+  <title>Pkgconf-&pkgconf-version;</title>
+
+  <sect2 role="installation">
+    <title/>
+
+```
+<screen><userinput remap="configure">./configure \
+--prefix=/usr \
+--disable-static</userinput></screen>
+
+<screen><userinput remap="make">make</userinput></screen>
+
+<screen><userinput remap="install">make install</userinput></screen>
+```
+
+  </sect2>
+
+</sect1>
+
+<!-- ================================================================ -->
+
+<!-- Meson                                                              -->
+
+<!-- ================================================================ -->
 
 <sect1 id="ch-chroot-meson" role="wrap">
   <?dbhtml filename="meson.html"?>
 
   <sect1info condition="script">
-    <productname>meson</productname>
+    <productname>Meson</productname>
     <productnumber>&meson-version;</productnumber>
     <address>&meson-url;</address>
   </sect1info>
 
-  <title>meson-&meson-version;</title>
+  <title>Meson-&meson-version;</title>
 
   <sect2 role="installation">
     <title/>
-<screen><userinput remap="install">cp meson.py /usr/bin/meson
-cp -rv mesonbuild /usr/bin</userinput></screen>
-  </sect2>
 
-</sect1>
-
-<sect1 id="ch-chroot-pkgconfig" role="wrap">
-  <?dbhtml filename="pkgconfig.html"?>
-
-  <sect1info condition="script">
-    <productname>pkg-config</productname>
-    <productnumber>&pkgconfig-version;</productnumber>
-    <address>&pkgconfig-url;</address>
-  </sect1info>
-
-  <title>pkg-config-&pkgconfig-version;</title>
-
-  <sect2 role="installation">
-    <title/>
-<screen><userinput remap="configure">./configure --prefix=/usr              \
-            --with-internal-glib       \
-            --disable-host-tool        \
-            --docdir=/usr/share/doc/pkg-config-&pkgconfig-version;</userinput></screen>
-<screen><userinput remap="make">make</userinput></screen>
-<screen><userinput remap="install">make install</userinput></screen>
-  </sect2>
-
-</sect1>
-
-<sect1 id="ch-chroot-pkgmngt" role="wrap">
-  <?dbhtml filename="pacman.html"?>
-
-  <sect1info condition="script">
-    <productname>pacman</productname>
-    <productnumber>&pacman-version;</productnumber>
-    <address>&pacman-url;</address>
-  </sect1info>
-
-  <title>Pacman-&pacman-version;</title>
-
-  <sect2 role="installation">
-    <title/>
-<screen><userinput remap="configure">mkdir build
-cd build
-meson --prefix=/usr                        \
-      -Dcrypto=openssl                     \
-      -Ddoc=disabled                       \
-      -Dgpgme=disabled</userinput></screen>
-
-<screen><userinput remap="make">ninja</userinput></screen>
-
-<screen><userinput remap="install">ninja install</userinput></screen>
-
-<screen><userinput>sed -e 's/\([^!]\)strip/\1!strip/' \
-    -e 's/\([^!]\)libtool/\1!libtool/' \
-    -e 's/\([^!]\)zipman/\1!zipman/' \
-    -i /etc/makepkg.conf
-cat &gt;&gt; /etc/makepkg.conf &lt;&lt; EOF
-BUILDDIR=/sources
-PKGDEST=/var/lib/packages
-PACKAGER="Pierre Labastie &lt;lnimbus@club-internet.fr&gt;"
-EOF
-cat &gt;&gt; /etc/pacman.conf &lt;&lt; EOF
-DBPath   = /var/lib/pacman/
-CacheDir = /var/cache/pacman/pkg/
-LogFile  = /var/log/pacman.log
-SigLevel = Never
-# Repository: do not add one now: repo-add needs openssl.
-EOF</userinput></screen>
+```
+<screen><userinput>python3 -m pip install \
+--no-index \
+--no-build-isolation \
+--prefix=/usr \
+.</userinput></screen>
+```
 
   </sect2>
 
 </sect1>
 
-<sect1 id="ch-chroot-shadow" role="wrap">
-  <?dbhtml filename="shadow.html"?>
+<!-- ================================================================ -->
 
-  <sect1info condition="script">
-    <productname>shadow</productname>
-    <productnumber>&shadow-version;</productnumber>
-    <address>&shadow-url;</address>
-  </sect1info>
+<!-- Fakeroot                                                           -->
 
-  <title>shadow-&shadow-version;</title>
+<!-- ================================================================ -->
 
-  <sect2 role="installation">
-    <title/>
-<screen><userinput remap="pre">sed -i 's/groups$(EXEEXT) //' src/Makefile.in
-find man -name Makefile.in -exec sed -i 's/groups\.1 / /'   {} \;
-find man -name Makefile.in -exec sed -i 's/getspnam\.3 / /' {} \;
-find man -name Makefile.in -exec sed -i 's/passwd\.5 / /'   {} \;
-sed -e 's:#ENCRYPT_METHOD DES:ENCRYPT_METHOD SHA512:' \
-    -e 's:/var/spool/mail:/var/mail:'                 \
-    -e '/PATH=/{s@/sbin:@@;s@/bin:@@}'                \
-    -i etc/login.defs</userinput></screen>
-<screen><userinput remap="configure">touch /usr/bin/passwd
-./configure --sysconfdir=/etc --disable-static \
-            --with-group-name-max-length=32</userinput></screen>
-<screen><userinput remap="make">make</userinput></screen>
-<screen><userinput remap="install">make install</userinput></screen>
-  </sect2>
-
-</sect1>
-
-<!-- Mandatory section for creating dirs. These instructions are added at the
-end of the creating dirs instructions of the book. Do not change the
-following line -->
-<sect1 id="ch-pkgmngt-creatingdirs">
-
-  <title>Creating Directories</title>
-
-<screen><userinput>mkdir -pv /var/{lib/{packages,pacman},cache/pkg}</userinput></screen>
-
-</sect1>
-<!-- Same for files. Do not change the following line -->
-<sect1 id="ch-pkgmngt-createfiles">
-
-  <title>Creating Essential Files</title>
-
-<screen><userinput>if ! grep -q tester /etc/passwd; then
-    echo "builder:x:101:101::/home/builder:/bin/bash" >> /etc/passwd
-    echo "builder:x:101:" >> /etc/group
-    install -o builder -d /home/builder
-else
-    TEST_UID=$(grep tester /etc/passwd | cut -d: -f3)
-    TEST_GID=$(grep tester /etc/group | cut -d: -f3)
-    echo "builder:x:$((TEST_UID+1)):$((TEST_GID+1))::/home/builder:/bin/bash" >> /etc/passwd
-    echo "builder:x:$((TEST_GID+1)):" >> /etc/group
-    install -o builder -d /home/builder
-fi
-chown builder:builder /var/lib/{packages,pacman}</userinput></screen>
-
-</sect1>
-
-<!-- Last but not least : Final instructions for installing the
-package manager at the end of chapter 6. Again, the scriptlet file name is
-taken from the dbhtml instruction, with digits added before and .html cut
-and the tarball name is formed from this name + version. So the file
-here _must_ be the same as in chapter 5. If rendering in html, both
-sets of instructions end up in the same file, which is usually not a problem.
--->
-<sect1 id="ch-system-libarchive" role="wrap">
-  <?dbhtml filename="libarchive.html"?>
-
-  <sect1info condition="script">
-    <productname>libarchive</productname>
-    <productnumber>&libarchive-version;</productnumber>
-    <address>&libarchive-url;</address>
-  </sect1info>
-
-  <title>Libarchive-&libarchive-version;</title>
-
-  <sect2 role="installation">
-    <title/>
-<screen><userinput remap="configure">./configure --prefix=/usr \
-            --disable-static</userinput></screen>
-<screen><userinput remap="make">make</userinput></screen>
-<screen><userinput remap="install">make DESTDIR=$PKG_DEST install</userinput></screen>
-  </sect2>
-
-</sect1>
-<sect1 id="ch-system-curl" role="wrap">
-  <?dbhtml filename="curl.html"?>
-
-  <sect1info condition="script">
-    <productname>curl</productname>
-    <productnumber>&curl-version;</productnumber>
-    <address>&curl-url;</address>
-  </sect1info>
-
-  <title>Curl-&curl-version;</title>
-
-  <sect2 role="installation">
-    <title/>
-<screen><userinput remap="configure">./configure --prefix=/usr \
-            --disable-static --with-openssl \
-            --enable-threaded-resolver \
-            --with-ca-path=/etc/ssl/certs</userinput></screen>
-<screen><userinput remap="make">make</userinput></screen>
-<screen><userinput remap="install">make DESTDIR=$PKG_DEST install
-rm -rf docs/examples/.deps
-find docs \( -name "Makefile*" -o -name "*.1" -o -name "*.3" \) -exec rm {} \;
-install -v -d -m755 $PKG_DEST/usr/share/doc/curl-&curl-version;
-cp -v -R docs/*     $PKG_DEST/usr/share/doc/curl-&curl-version;</userinput></screen>
-  </sect2>
-
-</sect1>
-
-<sect1 id="ch-system-fakeroot" role="wrap">
+<sect1 id="ch-chroot-fakeroot" role="wrap">
   <?dbhtml filename="fakeroot.html"?>
 
   <sect1info condition="script">
@@ -456,61 +634,351 @@ cp -v -R docs/*     $PKG_DEST/usr/share/doc/curl-&curl-version;</userinput></scr
     <address>&fakeroot-url;</address>
   </sect1info>
 
-  <title>fakeroot-&fakeroot-version;</title>
+  <title>Fakeroot-&fakeroot-version;</title>
 
   <sect2 role="installation">
     <title/>
-<screen><userinput remap="configure">./configure --prefix=/usr</userinput></screen>
+
+```
+<screen><userinput remap="configure">./configure \
+--prefix=/usr</userinput></screen>
+
 <screen><userinput remap="make">make</userinput></screen>
-<screen><userinput remap="install">make DESTDIR=$PKG_DEST install</userinput></screen>
+
+<screen><userinput remap="install">make install</userinput></screen>
+```
+
   </sect2>
 
 </sect1>
 
-<sect1 id="ch-system-pkgmngt" role="wrap">
-  <?dbhtml filename="pacman.html"?>
+<!-- ================================================================ -->
+
+<!-- Kuzpkg                                                             -->
+
+<!-- ================================================================ -->
+
+<sect1 id="ch-chroot-kuzpkg" role="wrap">
+  <?dbhtml filename="kuzpkg.html"?>
 
   <sect1info condition="script">
-    <productname>pacman</productname>
-    <productnumber>&pacman-version;</productnumber>
-    <address>&pacman-url;</address>
+    <productname>Kuzpkg</productname>
+    <productnumber>&kuzpkg-version;</productnumber>
+    <address>&kuzpkg-url;</address>
   </sect1info>
 
-  <title>Pacman-&pacman-version;</title>
+  <title>Kuzpkg-&kuzpkg-version;</title>
 
   <sect2 role="installation">
     <title/>
 
-<screen><userinput remap="configure">mkdir build
-cd build
-meson --prefix=/usr \
-      -Dcrypto=openssl</userinput></screen>
+```
+<para>
+  Kuzpkg is a pacman-derived package manager developed for the
+  Kuznix project. The package archive format used by Kuzpkg is
+  <literal>&kuzpkg-package-format;</literal>.
+</para>
 
-<screen><userinput remap="make">ninja</userinput></screen>
+<para>
+  This build enables the LFS-specific package installation helper
+  and installs Kuzpkg into the final system.
+</para>
 
-<!-- Those instructions are executed with PKG_DEST set. They are not processed
-in any way to add $PKG_DEST at some place, and the PKG_DEST directory is not
-populated before, so it is basically empty. You have thus to create any directory
-needed in $PKG_DEST and not otherwise created by the make install command. -->
-<screen><userinput remap="install">DESTDIR=$PKG_DEST ninja install</userinput></screen>
+<screen><userinput>mkdir build
+```
 
-<screen><userinput>sed -e 's/\([^!]\)strip/\1!strip/' \
-    -e 's/\([^!]\)zipman/\1!zipman/' \
-    -e 's/\([^!]\)libtool/\1!libtool/' \
-    -i /etc/makepkg.conf
-cat &gt;&gt; /etc/makepkg.conf &lt;&lt; EOF
-BUILDDIR=/sources
-PKGDEST=/var/lib/packages
-PACKAGER="Pierre Labastie &lt;lnimbus@club-internet.fr&lt;"
-EOF
-cat &gt;&gt; /etc/pacman.conf &lt;&lt; EOF
-DBPath   = /var/lib/pacman/
-CacheDir = /var/cache/pacman/pkg/
-LogFile  = /var/log/pacman.log
-SigLevel = Never
-EOF</userinput></screen>
+cd build</userinput></screen>
+
+```
+<screen><userinput remap="configure">meson setup \
+.. \
+--prefix=/usr \
+--buildtype=plain \
+-Dpackinstall-lfs=true \
+-Dpkg-ext=.kuzpkg.tar.zst</userinput></screen>
+
+<screen><userinput remap="make">meson compile</userinput></screen>
+
+<screen><userinput remap="install">meson install</userinput></screen>
+```
 
   </sect2>
 
 </sect1>
+
+<!-- ================================================================ -->
+
+<!-- Kuzpkg directories                                                 -->
+
+<!-- ================================================================ -->
+
+<sect1 id="ch-kuzpkg-creatingdirs">
+
+  <title>Creating Kuzpkg Directories</title>
+
+  <para>
+    Create the directories used by Kuzpkg for its local database,
+    package cache, package hooks, GnuPG data, and log file.
+  </para>
+
+<screen><userinput>mkdir -pv 
+/var/lib/kuzpkg 
+/var/cache/kuzpkg/pkg 
+/etc/kuzpkg.d/hooks 
+/etc/kuzpkg.d/gnupg 
+/var/log</userinput></screen>
+
+</sect1>
+
+<!-- ================================================================ -->
+
+<!-- Kuzpkg configuration                                               -->
+
+<!-- ================================================================ -->
+
+<sect1 id="ch-kuzpkg-config">
+
+  <title>Configuring Kuzpkg</title>
+
+  <para>
+    Create the initial Kuzpkg configuration.
+  </para>
+
+<screen><userinput>cat > /etc/kuzpkg.conf << "EOF"
+
+#
+
+# Kuzpkg configuration
+
+#
+
+DBPath      = /var/lib/kuzpkg/
+CacheDir    = /var/cache/kuzpkg/pkg/
+LogFile     = /var/log/kuzpkg.log
+
+# Package signatures are disabled during the initial LFS bootstrap.
+
+SigLevel    = Never
+EOF</userinput></screen>
+
+  <para>
+    The configuration deliberately does not use the Arch Linux
+    package database path. Kuzpkg uses its own
+    <filename>/var/lib/kuzpkg</filename> database.
+  </para>
+
+</sect1>
+
+<!-- ================================================================ -->
+
+<!-- Kuzpkg build environment                                           -->
+
+<!-- ================================================================ -->
+
+<sect1 id="ch-kuzpkg-build">
+
+  <title>Configuring the Kuzpkg Build Environment</title>
+
+  <para>
+    Kuzpkg retains the PKGBUILD-based build model inherited from
+    pacman. The native package extension is
+    <literal>.kuzpkg.tar.zst</literal>.
+  </para>
+
+<screen><userinput>install -d -m755 
+/var/lib/packages 
+/sources</userinput></screen>
+
+<screen><userinput>cat > /etc/makepkg.conf << "EOF"
+BUILDDIR=/sources
+PKGDEST=/var/lib/packages
+PACKAGER="Kuznix"
+PKGEXT=".kuzpkg.tar.zst"
+EOF</userinput></screen>
+
+</sect1>
+
+<!-- ================================================================ -->
+
+<!-- Builder user                                                       -->
+
+<!-- ================================================================ -->
+
+<sect1 id="ch-kuzpkg-create-user">
+
+  <title>Creating the Package Builder User</title>
+
+<screen><userinput>if ! grep -q '^builder:' /etc/passwd; then
+echo "builder:x:101:101::/home/builder:/bin/bash" >> /etc/passwd
+echo "builder:x:101:" >> /etc/group
+install -d -o builder -g builder /home/builder
+else
+install -d -o builder -g builder /home/builder
+fi
+
+chown -R builder:builder /var/lib/packages
+chown builder:builder /sources</userinput></screen>
+
+</sect1>
+
+<!-- ================================================================ -->
+
+<!-- Essential files                                                    -->
+
+<!-- ================================================================ -->
+
+<sect1 id="ch-kuzpkg-createfiles">
+
+  <title>Creating Essential Kuzpkg Files</title>
+
+<screen><userinput>install -d -m755 
+/var/lib/kuzpkg 
+/var/cache/kuzpkg/pkg 
+/etc/kuzpkg.d/hooks 
+/etc/kuzpkg.d/gnupg 
+/var/log
+
+touch /var/log/kuzpkg.log
+
+chmod 644 /var/log/kuzpkg.log</userinput></screen>
+
+</sect1>
+
+<!-- ================================================================ -->
+
+<!-- Final Kuzpkg installation                                         -->
+
+<!-- ================================================================ -->
+
+<sect1 id="ch-system-kuzpkg" role="wrap">
+  <?dbhtml filename="kuzpkg.html"?>
+
+  <sect1info condition="script">
+    <productname>Kuzpkg</productname>
+    <productnumber>&kuzpkg-version;</productnumber>
+    <address>&kuzpkg-url;</address>
+  </sect1info>
+
+  <title>Kuzpkg-&kuzpkg-version;</title>
+
+  <sect2 role="installation">
+    <title/>
+
+```
+<para>
+  Build and install Kuzpkg for the final LFS system.
+</para>
+
+<screen><userinput>rm -rf build
+```
+
+mkdir build
+cd build</userinput></screen>
+
+```
+<screen><userinput remap="configure">meson setup \
+.. \
+--prefix=/usr \
+--buildtype=plain \
+-Dpackinstall-lfs=true \
+-Dpkg-ext=.kuzpkg.tar.zst</userinput></screen>
+
+<screen><userinput remap="make">meson compile</userinput></screen>
+
+<screen><userinput remap="install">DESTDIR=$PKG_DEST meson install</userinput></screen>
+```
+
+  </sect2>
+
+</sect1>
+
+<!-- ================================================================ -->
+
+<!-- Final directories                                                  -->
+
+<!-- ================================================================ -->
+
+<sect1 id="ch-system-kuzpkg-dirs">
+
+  <title>Creating Final Kuzpkg Directories</title>
+
+<screen><userinput>install -d -m755 
+$PKG_DEST/var/lib/kuzpkg 
+$PKG_DEST/var/cache/kuzpkg/pkg 
+$PKG_DEST/etc/kuzpkg.d/hooks 
+$PKG_DEST/etc/kuzpkg.d/gnupg 
+$PKG_DEST/var/log</userinput></screen>
+
+</sect1>
+
+<!-- ================================================================ -->
+
+<!-- Final configuration                                                -->
+
+<!-- ================================================================ -->
+
+<sect1 id="ch-system-kuzpkg-config">
+
+  <title>Installing the Final Kuzpkg Configuration</title>
+
+<screen><userinput>cat > $PKG_DEST/etc/kuzpkg.conf << "EOF"
+
+#
+
+# Kuzpkg configuration
+
+#
+
+DBPath      = /var/lib/kuzpkg/
+CacheDir    = /var/cache/kuzpkg/pkg/
+LogFile     = /var/log/kuzpkg.log
+
+SigLevel    = Never
+EOF</userinput></screen>
+
+</sect1>
+
+<!-- ================================================================ -->
+
+<!-- Package database                                                   -->
+
+<!-- ================================================================ -->
+
+<sect1 id="ch-system-kuzpkg-db">
+
+  <title>Initial Kuzpkg Package Database</title>
+
+  <para>
+    Create the initial Kuzpkg database directory. The database is
+    populated when the first package is installed.
+  </para>
+
+<screen><userinput>install -d -m755 
+/var/lib/kuzpkg</userinput></screen>
+
+</sect1>
+
+<!-- ================================================================ -->
+
+<!-- Package format                                                     -->
+
+<!-- ================================================================ -->
+
+<sect1 id="ch-system-kuzpkg-format">
+
+  <title>Kuzpkg Package Format</title>
+
+  <para>
+    Kuzpkg uses the following native package archive format:
+  </para>
+
+<screen><userinput>&kuzpkg-package-format;</userinput></screen>
+
+  <para>
+    Package files generated for the Kuznix LFS system therefore use
+    the <literal>.kuzpkg.tar.zst</literal> suffix.
+  </para>
+
+</sect1>
+
 </article>
