@@ -1,0 +1,17 @@
+
+CFLAGS_cachyos_nativecpu="-march=native -mtune=native -O3 -pipe -fno-plt -fexceptions \
+-Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security \
+-fstack-clash-protection -fcf-protection"
+
+CXXFLAGS_cachyos_nativecpu="$CFLAGS_cachyos_nativecpu \
+-Wp,-D_GLIBCXX_ASSERTIONS"
+
+LDFLAGS_cachyos_nativecpu="-Wl,-O1 -Wl,--sort-common -Wl,--as-needed \
+-Wl,-z,relro -Wl,-z,now \
+-Wl,-z,pack-relative-relocs"
+
+OTHER_CFLAGS_cachyos_nativecpu="$CFLAGS_cachyos_nativecpu"
+
+OTHER_CXXFLAGS_cachyos_nativecpu="$CXXFLAGS_cachyos_nativecpu"
+
+OTHER_LDFLAGS_cachyos_nativecpu="$LDFLAGS_cachyos_nativecpu"
