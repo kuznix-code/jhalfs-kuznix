@@ -1,59 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!--
-  Kuznix JHALFS package-manager extension
-
-  Package manager:
-    Kuzpkg 0.1.0-alpha.1
-
-  Native package format:
-    .kuzpkg.tar.zst
-
-  This file is intended for the JHALFS pkgmngt framework.
--->
-
 <!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
   "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
 <!ENTITY kuzpkg-version "0.1.0-alpha.1">
 
 <!ENTITY kuzpkg-url
-  "https://github.com/Kuznix-Team/kuzpkg">
+  "https://github.com/Kuznix-Team/kuzpkg/archive/refs/tags/0.1.0-alpha.1.tar.gz">
+
+<!ENTITY kuzpkg-md5
+  "34466e2740e8975b8c34628734a88ed7">
 
 <!ENTITY kuzpkg-package-format ".kuzpkg.tar.zst">
 
-<!ENTITY zlib-version "1.3.2">
-
 <!ENTITY libcap-version "2.78">
-
 <!ENTITY libffi-version "3.8.0">
-
-<!ENTITY python-version "3.14.7">
-
 <!ENTITY ninja-version "1.13.2">
-
 <!ENTITY pkgconf-version "3.0.7">
-
 <!ENTITY meson-version "1.12.0">
-
 <!ENTITY openssl-version "4.0.2">
-
 <!ENTITY curl-version "8.22.0">
-
 <!ENTITY libarchive-version "3.8.9">
-
 <!ENTITY fakeroot-version "2.1.4">
-
-<!ENTITY zlib-url
-  "https://zlib.net/fossils/zlib-1.3.2.tar.gz">
 
 <!ENTITY libcap-url
   "https://www.kernel.org/pub/linux/libs/security/linux-privs/libcap2/libcap-2.78.tar.xz">
 
 <!ENTITY libffi-url
   "https://github.com/libffi/libffi/releases/download/v3.8.0/libffi-3.8.0.tar.gz">
-
-<!ENTITY python-url
-  "https://www.python.org/ftp/python/3.14.7/Python-3.14.7.tar.xz">
 
 <!ENTITY ninja-url
   "https://github.com/ninja-build/ninja/archive/v1.13.2/ninja-1.13.2.tar.gz">
@@ -76,25 +49,29 @@
 <!ENTITY fakeroot-url
   "https://deb.debian.org/debian/pool/main/f/fakeroot/fakeroot_2.1.4.orig.tar.xz">
 
-<!ENTITY zlib-md5 "a1e6c958597af3c67d162995a342138a">
+<!ENTITY libcap-md5
+  "0ff11419aa4813c0a0f84fe67bf3b39e">
 
-<!ENTITY libcap-md5 "0ff11419aa4813c0a0f84fe67bf3b39e">
+<!ENTITY libffi-md5
+  "96fe46f2a7bb82559b35a268a2c000ba">
 
-<!ENTITY libffi-md5 "96fe46f2a7bb82559b35a268a2c000ba">
+<!ENTITY ninja-md5
+  "76c00637fde44909cd7d56f8d73f2042">
 
-<!ENTITY python-md5 "a4c4c2991b4126e227073c2d9445f432">
+<!ENTITY pkgconf-md5
+  "dd1ba6724bc1792b55600d54346ce5ba">
 
-<!ENTITY ninja-md5 "76c00637fde44909cd7d56f8d73f2042">
+<!ENTITY meson-md5
+  "9f943c267d63016012efcb0f31ecdd7d">
 
-<!ENTITY pkgconf-md5 "dd1ba6724bc1792b55600d54346ce5ba">
+<!ENTITY openssl-md5
+  "9d256ddfa581e1982c005ab03890754d">
 
-<!ENTITY meson-md5 "9f943c267d63016012efcb0f31ecdd7d">
+<!ENTITY curl-md5
+  "f0db57e9236e070629bc711cf646cebe">
 
-<!ENTITY openssl-md5 "9d256ddfa581e1982c005ab03890754d">
-
-<!ENTITY curl-md5 "f0db57e9236e070629bc711cf646cebe">
-
-<!ENTITY libarchive-md5 "535e3afec5f61d493f0b1b9e8bcf7539">
+<!ENTITY libarchive-md5
+  "535e3afec5f61d493f0b1b9e8bcf7539">
 
 <!ENTITY % general-entities SYSTEM "BOOK/general.ent">
 
@@ -104,9 +81,7 @@
 <article>
 
 <!-- ================================================================ -->
-
 <!-- Package downloads                                                 -->
-
 <!-- ================================================================ -->
 
 <sect1 id="package">
@@ -124,198 +99,164 @@
 
   <para>
     The package manager is maintained by the Kuznix project:
-    <ulink url="&kuzpkg-url;"/>
+    <ulink url="https://github.com/Kuznix-Team/kuzpkg"/>
   </para>
 
   <sect2>
-    <title>Compression and archive support</title>
+    <title>Kuzpkg</title>
 
-```
-<para>
-  Zlib <literal>&zlib-version;</literal>
-</para>
-<para>
-  Download:
-  <ulink url="&zlib-url;"/>
-</para>
-<para>
-  MD5 sum:
-  <literal>&zlib-md5;</literal>
-</para>
+    <para>
+      Kuzpkg <literal>&kuzpkg-version;</literal>
+    </para>
 
-<para>
-  Libarchive <literal>&libarchive-version;</literal>
-</para>
-<para>
-  Download:
-  <ulink url="&libarchive-url;"/>
-</para>
-<para>
-  MD5 sum:
-  <literal>&libarchive-md5;</literal>
-</para>
-```
+    <para>
+      Download:
+      <ulink url="&kuzpkg-url;"/>
+    </para>
 
+    <para>
+      MD5 sum:
+      <literal>&kuzpkg-md5;</literal>
+    </para>
+  </sect2>
+
+  <sect2>
+    <title>Archive support</title>
+
+    <para>
+      Libarchive <literal>&libarchive-version;</literal>
+    </para>
+
+    <para>
+      Download:
+      <ulink url="&libarchive-url;"/>
+    </para>
+
+    <para>
+      MD5 sum:
+      <literal>&libarchive-md5;</literal>
+    </para>
   </sect2>
 
   <sect2>
     <title>Network and cryptographic support</title>
 
-```
-<para>
-  OpenSSL <literal>&openssl-version;</literal>
-</para>
-<para>
-  Download:
-  <ulink url="&openssl-url;"/>
-</para>
-<para>
-  MD5 sum:
-  <literal>&openssl-md5;</literal>
-</para>
+    <para>
+      OpenSSL <literal>&openssl-version;</literal>
+    </para>
 
-<para>
-  Curl <literal>&curl-version;</literal>
-</para>
-<para>
-  Download:
-  <ulink url="&curl-url;"/>
-</para>
-<para>
-  MD5 sum:
-  <literal>&curl-md5;</literal>
-</para>
-```
+    <para>
+      Download:
+      <ulink url="&openssl-url;"/>
+    </para>
 
+    <para>
+      MD5 sum:
+      <literal>&openssl-md5;</literal>
+    </para>
+
+    <para>
+      Curl <literal>&curl-version;</literal>
+    </para>
+
+    <para>
+      Download:
+      <ulink url="&curl-url;"/>
+    </para>
+
+    <para>
+      MD5 sum:
+      <literal>&curl-md5;</literal>
+    </para>
   </sect2>
 
   <sect2>
     <title>Build dependencies</title>
 
-```
-<para>
-  libcap <literal>&libcap-version;</literal>
-</para>
-<para>
-  Download:
-  <ulink url="&libcap-url;"/>
-</para>
-<para>
-  MD5 sum:
-  <literal>&libcap-md5;</literal>
-</para>
+    <para>
+      libcap <literal>&libcap-version;</literal>
+    </para>
 
-<para>
-  libffi <literal>&libffi-version;</literal>
-</para>
-<para>
-  Download:
-  <ulink url="&libffi-url;"/>
-</para>
-<para>
-  MD5 sum:
-  <literal>&libffi-md5;</literal>
-</para>
+    <para>
+      Download:
+      <ulink url="&libcap-url;"/>
+    </para>
 
-<para>
-  Python <literal>&python-version;</literal>
-</para>
-<para>
-  Download:
-  <ulink url="&python-url;"/>
-</para>
-<para>
-  MD5 sum:
-  <literal>&python-md5;</literal>
-</para>
+    <para>
+      MD5 sum:
+      <literal>&libcap-md5;</literal>
+    </para>
 
-<para>
-  Ninja <literal>&ninja-version;</literal>
-</para>
-<para>
-  Download:
-  <ulink url="&ninja-url;"/>
-</para>
-<para>
-  MD5 sum:
-  <literal>&ninja-md5;</literal>
-</para>
+    <para>
+      libffi <literal>&libffi-version;</literal>
+    </para>
 
-<para>
-  Pkgconf <literal>&pkgconf-version;</literal>
-</para>
-<para>
-  Download:
-  <ulink url="&pkgconf-url;"/>
-</para>
-<para>
-  MD5 sum:
-  <literal>&pkgconf-md5;</literal>
-</para>
+    <para>
+      Download:
+      <ulink url="&libffi-url;"/>
+    </para>
 
-<para>
-  Meson <literal>&meson-version;</literal>
-</para>
-<para>
-  Download:
-  <ulink url="&meson-url;"/>
-</para>
-<para>
-  MD5 sum:
-  <literal>&meson-md5;</literal>
-</para>
+    <para>
+      MD5 sum:
+      <literal>&libffi-md5;</literal>
+    </para>
 
-<para>
-  Fakeroot <literal>&fakeroot-version;</literal>
-</para>
-<para>
-  Download:
-  <ulink url="&fakeroot-url;"/>
-</para>
-```
+    <para>
+      Ninja <literal>&ninja-version;</literal>
+    </para>
 
+    <para>
+      Download:
+      <ulink url="&ninja-url;"/>
+    </para>
+
+    <para>
+      MD5 sum:
+      <literal>&ninja-md5;</literal>
+    </para>
+
+    <para>
+      Pkgconf <literal>&pkgconf-version;</literal>
+    </para>
+
+    <para>
+      Download:
+      <ulink url="&pkgconf-url;"/>
+    </para>
+
+    <para>
+      MD5 sum:
+      <literal>&pkgconf-md5;</literal>
+    </para>
+
+    <para>
+      Meson <literal>&meson-version;</literal>
+    </para>
+
+    <para>
+      Download:
+      <ulink url="&meson-url;"/>
+    </para>
+
+    <para>
+      MD5 sum:
+      <literal>&meson-md5;</literal>
+    </para>
+
+    <para>
+      Fakeroot <literal>&fakeroot-version;</literal>
+    </para>
+
+    <para>
+      Download:
+      <ulink url="&fakeroot-url;"/>
+    </para>
   </sect2>
 
 </sect1>
 
 <!-- ================================================================ -->
-
-<!-- Zlib                                                               -->
-
-<!-- ================================================================ -->
-
-<sect1 id="ch-chroot-zlib" role="wrap">
-  <?dbhtml filename="zlib.html"?>
-
-  <sect1info condition="script">
-    <productname>zlib</productname>
-    <productnumber>&zlib-version;</productnumber>
-    <address>&zlib-url;</address>
-  </sect1info>
-
-  <title>zlib-&zlib-version;</title>
-
-  <sect2 role="installation">
-    <title/>
-
-```
-<screen><userinput remap="configure">./configure --prefix=/usr</userinput></screen>
-
-<screen><userinput remap="make">make</userinput></screen>
-
-<screen><userinput remap="install">make install
-```
-
-rm -fv /usr/lib/libz.a</userinput></screen>
-
-  </sect2>
-
-</sect1>
-
-<!-- ================================================================ -->
-
 <!-- libcap                                                             -->
-
 <!-- ================================================================ -->
 
 <sect1 id="ch-chroot-libcap" role="wrap">
@@ -332,22 +273,22 @@ rm -fv /usr/lib/libz.a</userinput></screen>
   <sect2 role="installation">
     <title/>
 
-```
-<screen><userinput remap="pre">sed -i '/install -m.*STA/d' libcap/Makefile</userinput></screen>
+    <screen>
+      <userinput remap="pre">sed -i '/install -m.*STA/d' libcap/Makefile</userinput>
+    </screen>
 
-<screen><userinput remap="make">make prefix=/usr lib=lib</userinput></screen>
+    <screen>
+      <userinput remap="make">make prefix=/usr lib=lib</userinput>
+    </screen>
 
-<screen><userinput remap="install">make lib=lib prefix=/usr install</userinput></screen>
-```
-
+    <screen>
+      <userinput remap="install">make lib=lib prefix=/usr install</userinput>
+    </screen>
   </sect2>
-
 </sect1>
 
 <!-- ================================================================ -->
-
 <!-- libffi                                                              -->
-
 <!-- ================================================================ -->
 
 <sect1 id="ch-chroot-libffi" role="wrap">
@@ -364,26 +305,26 @@ rm -fv /usr/lib/libz.a</userinput></screen>
   <sect2 role="installation">
     <title/>
 
-```
-<screen><userinput remap="configure">./configure \
+    <screen>
+      <userinput remap="configure">./configure \
 --prefix=/usr \
 --disable-static \
 --with-gcc-arch=native \
---disable-exec-static-tramp</userinput></screen>
+--disable-exec-static-tramp</userinput>
+    </screen>
 
-<screen><userinput remap="make">make</userinput></screen>
+    <screen>
+      <userinput remap="make">make</userinput>
+    </screen>
 
-<screen><userinput remap="install">make install</userinput></screen>
-```
-
+    <screen>
+      <userinput remap="install">make install</userinput>
+    </screen>
   </sect2>
-
 </sect1>
 
 <!-- ================================================================ -->
-
 <!-- OpenSSL                                                            -->
-
 <!-- ================================================================ -->
 
 <sect1 id="ch-chroot-openssl" role="wrap">
@@ -400,26 +341,26 @@ rm -fv /usr/lib/libz.a</userinput></screen>
   <sect2 role="installation">
     <title/>
 
-```
-<screen><userinput remap="configure">./config \
+    <screen>
+      <userinput remap="configure">./config \
 --prefix=/usr \
 --openssldir=/etc/ssl \
 --libdir=lib \
-shared</userinput></screen>
+shared</userinput>
+    </screen>
 
-<screen><userinput remap="make">make</userinput></screen>
+    <screen>
+      <userinput remap="make">make</userinput>
+    </screen>
 
-<screen><userinput remap="install">make install</userinput></screen>
-```
-
+    <screen>
+      <userinput remap="install">make install</userinput>
+    </screen>
   </sect2>
-
 </sect1>
 
 <!-- ================================================================ -->
-
 <!-- libarchive                                                         -->
-
 <!-- ================================================================ -->
 
 <sect1 id="ch-chroot-libarchive" role="wrap">
@@ -436,25 +377,25 @@ shared</userinput></screen>
   <sect2 role="installation">
     <title/>
 
-```
-<screen><userinput remap="configure">./configure \
+    <screen>
+      <userinput remap="configure">./configure \
 --prefix=/usr \
 --disable-static \
---without-xml2</userinput></screen>
+--without-xml2</userinput>
+    </screen>
 
-<screen><userinput remap="make">make</userinput></screen>
+    <screen>
+      <userinput remap="make">make</userinput>
+    </screen>
 
-<screen><userinput remap="install">make install</userinput></screen>
-```
-
+    <screen>
+      <userinput remap="install">make install</userinput>
+    </screen>
   </sect2>
-
 </sect1>
 
 <!-- ================================================================ -->
-
 <!-- curl                                                               -->
-
 <!-- ================================================================ -->
 
 <sect1 id="ch-chroot-curl" role="wrap">
@@ -471,62 +412,27 @@ shared</userinput></screen>
   <sect2 role="installation">
     <title/>
 
-```
-<screen><userinput remap="configure">./configure \
+    <screen>
+      <userinput remap="configure">./configure \
 --prefix=/usr \
 --disable-static \
 --with-openssl \
 --enable-threaded-resolver \
---with-ca-path=/etc/ssl/certs</userinput></screen>
+--with-ca-path=/etc/ssl/certs</userinput>
+    </screen>
 
-<screen><userinput remap="make">make</userinput></screen>
+    <screen>
+      <userinput remap="make">make</userinput>
+    </screen>
 
-<screen><userinput remap="install">make install</userinput></screen>
-```
-
+    <screen>
+      <userinput remap="install">make install</userinput>
+    </screen>
   </sect2>
-
 </sect1>
 
 <!-- ================================================================ -->
-
-<!-- Python                                                             -->
-
-<!-- ================================================================ -->
-
-<sect1 id="ch-chroot-python" role="wrap">
-  <?dbhtml filename="Python-pass2.html"?>
-
-  <sect1info condition="script">
-    <productname>Python</productname>
-    <productnumber>&python-version;</productnumber>
-    <address>&python-url;</address>
-  </sect1info>
-
-  <title>Python-&python-version;</title>
-
-  <sect2 role="installation">
-    <title/>
-
-```
-<screen><userinput remap="configure">./configure \
---prefix=/usr \
---enable-shared \
---without-ensurepip</userinput></screen>
-
-<screen><userinput remap="make">make</userinput></screen>
-
-<screen><userinput remap="install">make install</userinput></screen>
-```
-
-  </sect2>
-
-</sect1>
-
-<!-- ================================================================ -->
-
 <!-- Ninja                                                              -->
-
 <!-- ================================================================ -->
 
 <sect1 id="ch-chroot-ninja" role="wrap">
@@ -543,20 +449,18 @@ shared</userinput></screen>
   <sect2 role="installation">
     <title/>
 
-```
-<screen><userinput remap="configure">python3 configure.py --bootstrap</userinput></screen>
+    <screen>
+      <userinput remap="configure">python3 configure.py --bootstrap</userinput>
+    </screen>
 
-<screen><userinput remap="install">install -vm755 ninja /usr/bin/</userinput></screen>
-```
-
+    <screen>
+      <userinput remap="install">install -vm755 ninja /usr/bin/</userinput>
+    </screen>
   </sect2>
-
 </sect1>
 
 <!-- ================================================================ -->
-
-<!-- Pkgconf                                                             -->
-
+<!-- Pkgconf                                                            -->
 <!-- ================================================================ -->
 
 <sect1 id="ch-chroot-pkgconf" role="wrap">
@@ -573,24 +477,24 @@ shared</userinput></screen>
   <sect2 role="installation">
     <title/>
 
-```
-<screen><userinput remap="configure">./configure \
+    <screen>
+      <userinput remap="configure">./configure \
 --prefix=/usr \
---disable-static</userinput></screen>
+--disable-static</userinput>
+    </screen>
 
-<screen><userinput remap="make">make</userinput></screen>
+    <screen>
+      <userinput remap="make">make</userinput>
+    </screen>
 
-<screen><userinput remap="install">make install</userinput></screen>
-```
-
+    <screen>
+      <userinput remap="install">make install</userinput>
+    </screen>
   </sect2>
-
 </sect1>
 
 <!-- ================================================================ -->
-
 <!-- Meson                                                              -->
-
 <!-- ================================================================ -->
 
 <sect1 id="ch-chroot-meson" role="wrap">
@@ -607,22 +511,18 @@ shared</userinput></screen>
   <sect2 role="installation">
     <title/>
 
-```
-<screen><userinput>python3 -m pip install \
+    <screen>
+      <userinput remap="configure">python3 -m pip install \
 --no-index \
 --no-build-isolation \
 --prefix=/usr \
-.</userinput></screen>
-```
-
+.</userinput>
+    </screen>
   </sect2>
-
 </sect1>
 
 <!-- ================================================================ -->
-
 <!-- Fakeroot                                                           -->
-
 <!-- ================================================================ -->
 
 <sect1 id="ch-chroot-fakeroot" role="wrap">
@@ -639,23 +539,23 @@ shared</userinput></screen>
   <sect2 role="installation">
     <title/>
 
-```
-<screen><userinput remap="configure">./configure \
---prefix=/usr</userinput></screen>
+    <screen>
+      <userinput remap="configure">./configure \
+--prefix=/usr</userinput>
+    </screen>
 
-<screen><userinput remap="make">make</userinput></screen>
+    <screen>
+      <userinput remap="make">make</userinput>
+    </screen>
 
-<screen><userinput remap="install">make install</userinput></screen>
-```
-
+    <screen>
+      <userinput remap="install">make install</userinput>
+    </screen>
   </sect2>
-
 </sect1>
 
 <!-- ================================================================ -->
-
 <!-- Kuzpkg                                                             -->
-
 <!-- ================================================================ -->
 
 <sect1 id="ch-chroot-kuzpkg" role="wrap">
@@ -672,44 +572,38 @@ shared</userinput></screen>
   <sect2 role="installation">
     <title/>
 
-```
-<para>
-  Kuzpkg is a pacman-derived package manager developed for the
-  Kuznix project. The package archive format used by Kuzpkg is
-  <literal>&kuzpkg-package-format;</literal>.
-</para>
+    <para>
+      Kuzpkg is a pacman-derived package manager developed for the
+      Kuznix project. The package archive format used by Kuzpkg is
+      <literal>&kuzpkg-package-format;</literal>.
+    </para>
 
-<para>
-  This build enables the LFS-specific package installation helper
-  and installs Kuzpkg into the final system.
-</para>
+    <screen>
+      <userinput>mkdir build
+cd build</userinput>
+    </screen>
 
-<screen><userinput>mkdir build
-```
-
-cd build</userinput></screen>
-
-```
-<screen><userinput remap="configure">meson setup \
+    <screen>
+      <userinput remap="configure">meson setup \
 .. \
 --prefix=/usr \
 --buildtype=plain \
 -Dpackinstall-lfs=true \
--Dpkg-ext=.kuzpkg.tar.zst</userinput></screen>
+-Dpkg-ext=.kuzpkg.tar.zst</userinput>
+    </screen>
 
-<screen><userinput remap="make">meson compile</userinput></screen>
+    <screen>
+      <userinput remap="make">meson compile</userinput>
+    </screen>
 
-<screen><userinput remap="install">meson install</userinput></screen>
-```
-
+    <screen>
+      <userinput remap="install">meson install</userinput>
+    </screen>
   </sect2>
-
 </sect1>
 
 <!-- ================================================================ -->
-
 <!-- Kuzpkg directories                                                 -->
-
 <!-- ================================================================ -->
 
 <sect1 id="ch-kuzpkg-creatingdirs">
@@ -721,58 +615,43 @@ cd build</userinput></screen>
     package cache, package hooks, GnuPG data, and log file.
   </para>
 
-<screen><userinput>mkdir -pv 
-/var/lib/kuzpkg 
-/var/cache/kuzpkg/pkg 
-/etc/kuzpkg.d/hooks 
-/etc/kuzpkg.d/gnupg 
-/var/log</userinput></screen>
+  <screen>
+    <userinput>mkdir -pv \
+/var/lib/kuzpkg \
+/var/cache/kuzpkg/pkg \
+/etc/kuzpkg.d/hooks \
+/etc/kuzpkg.d/gnupg \
+/var/log</userinput>
+  </screen>
 
 </sect1>
 
 <!-- ================================================================ -->
-
 <!-- Kuzpkg configuration                                               -->
-
 <!-- ================================================================ -->
 
 <sect1 id="ch-kuzpkg-config">
 
   <title>Configuring Kuzpkg</title>
 
-  <para>
-    Create the initial Kuzpkg configuration.
-  </para>
-
-<screen><userinput>cat > /etc/kuzpkg.conf << "EOF"
-
+  <screen>
+    <userinput>cat &gt; /etc/kuzpkg.conf &lt;&lt; "EOF"
 #
-
 # Kuzpkg configuration
-
 #
 
 DBPath      = /var/lib/kuzpkg/
 CacheDir    = /var/cache/kuzpkg/pkg/
 LogFile     = /var/log/kuzpkg.log
 
-# Package signatures are disabled during the initial LFS bootstrap.
-
 SigLevel    = Never
-EOF</userinput></screen>
-
-  <para>
-    The configuration deliberately does not use the Arch Linux
-    package database path. Kuzpkg uses its own
-    <filename>/var/lib/kuzpkg</filename> database.
-  </para>
+EOF</userinput>
+  </screen>
 
 </sect1>
 
 <!-- ================================================================ -->
-
-<!-- Kuzpkg build environment                                           -->
-
+<!-- Kuzpkg build environment                                          -->
 <!-- ================================================================ -->
 
 <sect1 id="ch-kuzpkg-build">
@@ -780,78 +659,80 @@ EOF</userinput></screen>
   <title>Configuring the Kuzpkg Build Environment</title>
 
   <para>
-    Kuzpkg retains the PKGBUILD-based build model inherited from
-    pacman. The native package extension is
+    Kuzpkg uses the PKGBUILD-based build model inherited from pacman.
+    The native package extension is
     <literal>.kuzpkg.tar.zst</literal>.
   </para>
 
-<screen><userinput>install -d -m755 
-/var/lib/packages 
-/sources</userinput></screen>
+  <screen>
+    <userinput>install -d -m755 \
+/var/lib/packages \
+/sources</userinput>
+  </screen>
 
-<screen><userinput>cat > /etc/makepkg.conf << "EOF"
+  <screen>
+    <userinput>cat &gt; /etc/makepkg.conf &lt;&lt; "EOF"
 BUILDDIR=/sources
 PKGDEST=/var/lib/packages
 PACKAGER="Kuznix"
 PKGEXT=".kuzpkg.tar.zst"
-EOF</userinput></screen>
+EOF</userinput>
+  </screen>
 
 </sect1>
 
 <!-- ================================================================ -->
-
 <!-- Builder user                                                       -->
-
 <!-- ================================================================ -->
 
 <sect1 id="ch-kuzpkg-create-user">
 
   <title>Creating the Package Builder User</title>
 
-<screen><userinput>if ! grep -q '^builder:' /etc/passwd; then
-echo "builder:x:101:101::/home/builder:/bin/bash" >> /etc/passwd
-echo "builder:x:101:" >> /etc/group
+  <screen>
+    <userinput>if ! grep -q '^builder:' /etc/passwd; then
+echo "builder:x:101:101::/home/builder:/bin/bash" &gt;&gt; /etc/passwd
+echo "builder:x:101:" &gt;&gt; /etc/group
 install -d -o builder -g builder /home/builder
 else
 install -d -o builder -g builder /home/builder
 fi
 
 chown -R builder:builder /var/lib/packages
-chown builder:builder /sources</userinput></screen>
+chown builder:builder /sources</userinput>
+  </screen>
 
 </sect1>
 
 <!-- ================================================================ -->
-
 <!-- Essential files                                                    -->
-
 <!-- ================================================================ -->
 
 <sect1 id="ch-kuzpkg-createfiles">
 
   <title>Creating Essential Kuzpkg Files</title>
 
-<screen><userinput>install -d -m755 
-/var/lib/kuzpkg 
-/var/cache/kuzpkg/pkg 
-/etc/kuzpkg.d/hooks 
-/etc/kuzpkg.d/gnupg 
+  <screen>
+    <userinput>install -d -m755 \
+/var/lib/kuzpkg \
+/var/cache/kuzpkg/pkg \
+/etc/kuzpkg.d/hooks \
+/etc/kuzpkg.d/gnupg \
 /var/log
 
 touch /var/log/kuzpkg.log
 
-chmod 644 /var/log/kuzpkg.log</userinput></screen>
+chmod 644 /var/log/kuzpkg.log</userinput>
+  </screen>
 
 </sect1>
 
 <!-- ================================================================ -->
-
 <!-- Final Kuzpkg installation                                         -->
-
 <!-- ================================================================ -->
 
 <sect1 id="ch-system-kuzpkg" role="wrap">
-  <?dbhtml filename="kuzpkg.html"?>
+  <?dbhtml filename="kuzpkg-final.html"?>
 
   <sect1info condition="script">
     <productname>Kuzpkg</productname>
@@ -864,69 +745,67 @@ chmod 644 /var/log/kuzpkg.log</userinput></screen>
   <sect2 role="installation">
     <title/>
 
-```
-<para>
-  Build and install Kuzpkg for the final LFS system.
-</para>
+    <para>
+      Build and install Kuzpkg for the final LFS system.
+    </para>
 
-<screen><userinput>rm -rf build
-```
-
+    <screen>
+      <userinput>rm -rf build
 mkdir build
-cd build</userinput></screen>
+cd build</userinput>
+    </screen>
 
-```
-<screen><userinput remap="configure">meson setup \
+    <screen>
+      <userinput remap="configure">meson setup \
 .. \
 --prefix=/usr \
 --buildtype=plain \
 -Dpackinstall-lfs=true \
--Dpkg-ext=.kuzpkg.tar.zst</userinput></screen>
+-Dpkg-ext=.kuzpkg.tar.zst</userinput>
+    </screen>
 
-<screen><userinput remap="make">meson compile</userinput></screen>
+    <screen>
+      <userinput remap="make">meson compile</userinput>
+    </screen>
 
-<screen><userinput remap="install">DESTDIR=$PKG_DEST meson install</userinput></screen>
-```
+    <screen>
+      <userinput remap="install">meson install</userinput>
+    </screen>
 
   </sect2>
-
 </sect1>
 
 <!-- ================================================================ -->
-
 <!-- Final directories                                                  -->
-
 <!-- ================================================================ -->
 
 <sect1 id="ch-system-kuzpkg-dirs">
 
   <title>Creating Final Kuzpkg Directories</title>
 
-<screen><userinput>install -d -m755 
-$PKG_DEST/var/lib/kuzpkg 
-$PKG_DEST/var/cache/kuzpkg/pkg 
-$PKG_DEST/etc/kuzpkg.d/hooks 
-$PKG_DEST/etc/kuzpkg.d/gnupg 
-$PKG_DEST/var/log</userinput></screen>
+  <screen>
+    <userinput>install -d -m755 \
+/var/lib/kuzpkg \
+/var/cache/kuzpkg/pkg \
+/etc/kuzpkg.d/hooks \
+/etc/kuzpkg.d/gnupg \
+/var/log</userinput>
+  </screen>
 
 </sect1>
 
 <!-- ================================================================ -->
-
 <!-- Final configuration                                                -->
-
 <!-- ================================================================ -->
 
 <sect1 id="ch-system-kuzpkg-config">
 
   <title>Installing the Final Kuzpkg Configuration</title>
 
-<screen><userinput>cat > $PKG_DEST/etc/kuzpkg.conf << "EOF"
-
+  <screen>
+    <userinput>cat &gt; /etc/kuzpkg.conf &lt;&lt; "EOF"
 #
-
 # Kuzpkg configuration
-
 #
 
 DBPath      = /var/lib/kuzpkg/
@@ -934,14 +813,13 @@ CacheDir    = /var/cache/kuzpkg/pkg/
 LogFile     = /var/log/kuzpkg.log
 
 SigLevel    = Never
-EOF</userinput></screen>
+EOF</userinput>
+  </screen>
 
 </sect1>
 
 <!-- ================================================================ -->
-
 <!-- Package database                                                   -->
-
 <!-- ================================================================ -->
 
 <sect1 id="ch-system-kuzpkg-db">
@@ -953,15 +831,14 @@ EOF</userinput></screen>
     populated when the first package is installed.
   </para>
 
-<screen><userinput>install -d -m755 
-/var/lib/kuzpkg</userinput></screen>
+  <screen>
+    <userinput>install -d -m755 /var/lib/kuzpkg</userinput>
+  </screen>
 
 </sect1>
 
 <!-- ================================================================ -->
-
 <!-- Package format                                                     -->
-
 <!-- ================================================================ -->
 
 <sect1 id="ch-system-kuzpkg-format">
@@ -972,7 +849,9 @@ EOF</userinput></screen>
     Kuzpkg uses the following native package archive format:
   </para>
 
-<screen><userinput>&kuzpkg-package-format;</userinput></screen>
+  <screen>
+    <userinput>&kuzpkg-package-format;</userinput>
+  </screen>
 
   <para>
     Package files generated for the Kuznix LFS system therefore use
