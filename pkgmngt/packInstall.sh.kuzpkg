@@ -1,261 +1,424 @@
 #!/bin/bash
 
 # packInstall.sh.kuzpkg
-
+#
+# Kuzpkg package-management backend for LFS/JHALFS.
+#
+# This script provides:
+#
+#   packInstall()
+#   warpInstall()
+#
+# Packages are built with makepkg and stored as:
+#
+#   /var/lib/packages/*.kuzpkg.tar.zst
+#
+# The resulting package is installed through kuzpkg.
 #
 
-# Kuzpkg version of the LFS packInstall helper.
+set -e
 
-#
+umask 022
 
-# Functions:
+###############################################################################
+# Configuration
+###############################################################################
 
-# packInstall  - pack and install the contents of $PKG_DEST
+KUZPKG_BIN="${KUZPKG_BIN:-kuzpkg}"
+MAKEPKG_BIN="${MAKEPKG_BIN:-makepkg}"
 
-# warpInstall  - identical operation to packInstall
+KUZPKG_PKGEXT="${KUZPKG_PKGEXT:-.kuzpkg.tar.zst}"
 
-#
+KUZPKG_PKGDEST="${KUZPKG_PKGDEST:-/var/lib/packages}"
 
-# Variables available from JHALFS:
+KUZPKG_BUILDDIR="${KUZPKG_BUILDDIR:-/sources}"
 
-# PKGDIR       Source package/build directory
+KUZPKG_BUILDER="${KUZPKG_BUILDER:-builder}"
 
-# PKG_DEST     Temporary package destination tree
+###############################################################################
+# Utility functions
+###############################################################################
 
-#
-
-# Other variables may be supplied through the environment.
-
-packInstall() {
-
-```
-# ------------------------------------------------------------------
-# Determine package name and version
-# ------------------------------------------------------------------
-
-local PCKGVRS
-local TGTPKG
-local PACKAGE
-local VERSION
-local ARCH
-local ARCHIVE_NAME
-
-PCKGVRS=$(basename "$PKGDIR")
-TGTPKG=$(basename "$PKG_DEST")
-
-PACKAGE=$(echo "$TGTPKG" |
-    sed 's/^[0-9]\{3,4\}-//' |
-    sed 's/^[0-9]\{2\}-//')
-
-# The package version is obtained from the package directory name.
-# LFS package names are not completely normalized, so retain the
-# special cases used by the original packInstall implementation.
-
-case "$PCKGVRS" in
-
-    expect*|tcl*)
-        VERSION=$(echo "$PCKGVRS" |
-            sed 's/^[^0-9]*//')
-        ;;
-
-    unzip*)
-        VERSION=$(echo "$PCKGVRS" |
-            sed 's/^[^0-9]*\([0-9]\)\([0-9]\)/\1.\2/')
-        ;;
-
-    docbook-xml)
-        VERSION=4.5
-        ;;
-
-    *)
-        VERSION=$(echo "$PCKGVRS" |
-            sed 's/^.*[-_]\([0-9]\)/\1/' |
-            sed 's/_/./g')
-        ;;
-
-esac
-
-# ------------------------------------------------------------------
-# Determine architecture
-# ------------------------------------------------------------------
-
-case "$(uname -m)" in
-    x86_64)
-        ARCH=x86_64
-        ;;
-
-    i686|i386|i486|i586)
-        ARCH=i686
-        ;;
-
-    aarch64)
-        ARCH=aarch64
-        ;;
-
-    armv7l|armv6l)
-        ARCH=armv7h
-        ;;
-
-    *)
-        ARCH=$(uname -m)
-        ;;
-esac
-
-# ------------------------------------------------------------------
-# Kuzpkg package filename
-#
-# Native Kuzpkg package format:
-#
-#   package-version-release-architecture.kuzpkg.tar.zst
-#
-# ------------------------------------------------------------------
-
-local PKGREL=1
-
-ARCHIVE_NAME="${PACKAGE}-${VERSION}-${PKGREL}-${ARCH}.kuzpkg.tar.zst"
-
-# ------------------------------------------------------------------
-# Enter the temporary installation tree
-# ------------------------------------------------------------------
-
-pushd "$PKG_DEST" || return 1
-
-# The info directory already exists on the LFS system and must not
-# be included in individual packages.
-
-rm -fv ./usr/share/info/dir
-
-# ------------------------------------------------------------------
-# Prepare source/build directory
-# ------------------------------------------------------------------
-
-rm -rf "/sources/$PACKAGE"
-
-mkdir -p "/sources/$PACKAGE/src"
-
-# The package is built as the unprivileged builder user.
-
-chown -R builder:builder "/sources/$PACKAGE"
-
-# Move the installed tree into the package source directory.
-
-shopt -s dotglob nullglob
-
-mv -- * "/sources/$PACKAGE/src/"
-
-shopt -u dotglob nullglob
-
-chown -R builder:builder "$PKG_DEST"
-
-chmod -R o+r "/sources/$PACKAGE"
-
-# ------------------------------------------------------------------
-# Create PKGBUILD
-# ------------------------------------------------------------------
-
-cat > PKGBUILD <<EOF
-```
-
-pkgname='$PACKAGE'
-pkgver='$VERSION'
-pkgrel='$PKGREL'
-pkgdesc='$PACKAGE'
-arch=('$ARCH')
-
-package() {
-cp -a ./* "$pkgdir/"
+kuzpkg_die()
+{
+    echo "ERROR: $*" >&2
+    return 1
 }
-EOF
 
-```
-# ------------------------------------------------------------------
-# Build the Kuzpkg package
-# ------------------------------------------------------------------
+
+kuzpkg_msg()
+{
+    echo "==> $*"
+}
+
+
+kuzpkg_warning()
+{
+    echo "WARNING: $*" >&2
+}
+
+
+kuzpkg_require_command()
+{
+    local command="$1"
+
+    if ! command -v "$command" >/dev/null 2>&1; then
+        kuzpkg_die "Required command not found: $command"
+    fi
+}
+
+
+kuzpkg_prepare_environment()
+{
+    kuzpkg_require_command "$MAKEPKG_BIN"
+    kuzpkg_require_command "$KUZPKG_BIN"
+
+    install -d -m755 "$KUZPKG_PKGDEST"
+    install -d -m755 "$KUZPKG_BUILDDIR"
+}
+
+
+###############################################################################
+# Package name/version handling
+###############################################################################
+
+kuzpkg_package_name()
+{
+    local package_dir="$1"
+    local package_name
+
+    package_name="$(basename "$package_dir")"
+
+    case "$package_name" in
+        expect-[0-9]*)
+            echo "expect"
+            ;;
+
+        tcl-[0-9]*)
+            echo "tcl"
+            ;;
+
+        unzip-[0-9]*)
+            echo "unzip"
+            ;;
+
+        docbook-xml-[0-9]*)
+            echo "docbook-xml"
+            ;;
+
+        *)
+            echo "${package_name%%-*}"
+            ;;
+    esac
+}
+
+
+kuzpkg_package_version()
+{
+    local package_dir="$1"
+    local package_name
+    local version
+
+    package_name="$(basename "$package_dir")"
+
+    case "$package_name" in
+        expect-[0-9]*)
+            version="${package_name#expect-}"
+            ;;
+
+        tcl-[0-9]*)
+            version="${package_name#tcl-}"
+            ;;
+
+        unzip-[0-9]*)
+            version="${package_name#unzip-}"
+            ;;
+
+        docbook-xml-[0-9]*)
+            version="${package_name#docbook-xml-}"
+            ;;
+
+        *)
+            version="${package_name#*-}"
+            ;;
+    esac
+
+    echo "$version"
+}
+
+
+###############################################################################
+# Package directory handling
+###############################################################################
+
+kuzpkg_source_directory()
+{
+    local package="$1"
+
+    echo "$KUZPKG_BUILDDIR/$package/src"
+}
+
+
+kuzpkg_build_directory()
+{
+    local package="$1"
+
+    echo "$KUZPKG_BUILDDIR/$package"
+}
+
+
+###############################################################################
+# PKGBUILD generation
+###############################################################################
+
+kuzpkg_create_pkgbuild()
+{
+    local builddir="$1"
+    local package="$2"
+    local version="$3"
+
+    cat > "$builddir/PKGBUILD" <<EOF
+# Automatically generated by packInstall.sh.kuzpkg
 #
-# makepkg is retained because Kuzpkg uses the pacman-derived
-# PKGBUILD/makepkg packaging model.
+# Package: ${package}
+# Version: ${version}
 #
-# PKGEXT is explicitly set so that the resulting package is a
-# native .kuzpkg.tar.zst archive.
-#
-# The LFS bootstrap does not yet have package-signing infrastructure,
-# so integrity checking is skipped here.
 
-if ! su builder -c \
-    "cd '$PWD' && \
-     PKGEXT='.kuzpkg.tar.zst' \
-     PKGDEST='/var/lib/packages' \
-     makepkg --clean --skipinteg"
-then
-    echo "packInstall: failed to build $ARCHIVE_NAME" >&2
-    popd >/dev/null || true
-    return 1
-fi
+pkgname='${package}'
+pkgver='${version}'
+pkgrel='1'
 
-# ------------------------------------------------------------------
-# Verify that the expected package was produced
-# ------------------------------------------------------------------
+arch=('${ARCH:-x86_64}')
 
-if [ ! -f "/var/lib/packages/$ARCHIVE_NAME" ]; then
-    echo "packInstall: package not found:" >&2
-    echo "  /var/lib/packages/$ARCHIVE_NAME" >&2
-    popd >/dev/null || true
-    return 1
-fi
-
-# ------------------------------------------------------------------
-# Install using Kuzpkg
-# ------------------------------------------------------------------
-
-if ! kuzpkg -U --noconfirm \
-    "/var/lib/packages/$ARCHIVE_NAME"
-then
-
-    # Retry while allowing files from the package to overwrite files
-    # already present in the temporary LFS system.
-
-    if ! kuzpkg -U --noconfirm \
-        --overwrite '*' \
-        "/var/lib/packages/$ARCHIVE_NAME"
-    then
-        echo "packInstall: failed to install $ARCHIVE_NAME" >&2
-        popd >/dev/null || true
+package()
+{
+    if [ -d "\$srcdir/package" ]; then
+        cp -a "\$srcdir/package/." "\$pkgdir/"
+    elif [ -d "\$srcdir/dest" ]; then
+        cp -a "\$srcdir/dest/." "\$pkgdir/"
+    else
+        echo "ERROR: No package staging directory found." >&2
         return 1
     fi
-fi
-
-# ------------------------------------------------------------------
-# Return to the original directory.
-#
-# JHALFS removes $PKG_DEST immediately after this function returns,
-# so leaving the temporary tree is important.
-# ------------------------------------------------------------------
-
-popd || return 1
-
-return 0
-```
-
+}
+EOF
 }
 
-# ----------------------------------------------------------------------
 
+###############################################################################
+# Package staging
+###############################################################################
+
+kuzpkg_prepare_staging()
+{
+    local source_dir="$1"
+    local staging_dir="$2"
+
+    rm -rf "$staging_dir"
+
+    install -d -m755 "$staging_dir"
+
+    if [ -d "$source_dir/package" ]; then
+        cp -a "$source_dir/package/." "$staging_dir/"
+    elif [ -d "$source_dir/dest" ]; then
+        cp -a "$source_dir/dest/." "$staging_dir/"
+    else
+        kuzpkg_die \
+            "Cannot find package staging directory in $source_dir"
+    fi
+}
+
+
+###############################################################################
+# Build package
+###############################################################################
+
+kuzpkg_build_package()
+{
+    local builddir="$1"
+    local package="$2"
+
+    local oldpwd
+    local package_file
+
+    oldpwd="$(pwd)"
+
+    cd "$builddir"
+
+    kuzpkg_msg "Building ${package}..."
+
+    rm -f ./*.kuzpkg.tar.zst
+
+    PKGEXT="$KUZPKG_PKGEXT" \
+    PKGDEST="$KUZPKG_PKGDEST" \
+    BUILDDIR="$builddir" \
+    "$MAKEPKG_BIN" \
+        --clean \
+        --skipinteg
+
+    package_file="$(find "$KUZPKG_PKGDEST" \
+        -maxdepth 1 \
+        -type f \
+        -name "${package}-*.kuzpkg.tar.zst" \
+        -print \
+        | head -n 1)"
+
+    cd "$oldpwd"
+
+    if [ -z "$package_file" ]; then
+        kuzpkg_die \
+            "makepkg completed but no ${package} package was produced"
+    fi
+
+    echo "$package_file"
+}
+
+
+###############################################################################
+# Install package
+###############################################################################
+
+kuzpkg_install_package()
+{
+    local package_file="$1"
+
+    if [ ! -f "$package_file" ]; then
+        kuzpkg_die "Package does not exist: $package_file"
+    fi
+
+    kuzpkg_msg "Installing $(basename "$package_file")..."
+
+    "$KUZPKG_BIN" -U --noconfirm "$package_file"
+}
+
+
+###############################################################################
+# Main packInstall implementation
+###############################################################################
+
+packInstall()
+{
+    local package_dir
+    local package
+    local version
+    local builddir
+    local source_dir
+    local staging_dir
+    local package_file
+
+    package_dir="${PKGDIR:-}"
+
+    if [ -z "$package_dir" ]; then
+        kuzpkg_die "PKGDIR is not set"
+        return 1
+    fi
+
+    if [ ! -d "$package_dir" ]; then
+        kuzpkg_die "Package directory does not exist: $package_dir"
+        return 1
+    fi
+
+    kuzpkg_prepare_environment
+
+    package="$(kuzpkg_package_name "$package_dir")"
+    version="$(kuzpkg_package_version "$package_dir")"
+
+    if [ -z "$package" ]; then
+        kuzpkg_die "Unable to determine package name"
+        return 1
+    fi
+
+    if [ -z "$version" ]; then
+        kuzpkg_die "Unable to determine package version"
+        return 1
+    fi
+
+    builddir="$(kuzpkg_build_directory "$package")"
+    source_dir="$(kuzpkg_source_directory "$package")"
+    staging_dir="$builddir/package"
+
+    kuzpkg_msg "Package: $package"
+    kuzpkg_msg "Version: $version"
+
+    ###########################################################################
+    # Recreate build directory
+    ###########################################################################
+
+    rm -rf "$builddir"
+
+    install -d -m755 "$builddir"
+
+    ###########################################################################
+    # Copy package source tree
+    ###########################################################################
+
+    kuzpkg_msg "Preparing source tree..."
+
+    install -d -m755 "$source_dir"
+
+    cp -a "$package_dir/." "$source_dir/"
+
+    ###########################################################################
+    # Create package staging tree
+    ###########################################################################
+
+    kuzpkg_prepare_staging "$source_dir" "$staging_dir"
+
+    ###########################################################################
+    # Generate PKGBUILD
+    ###########################################################################
+
+    kuzpkg_create_pkgbuild \
+        "$builddir" \
+        "$package" \
+        "$version"
+
+    ###########################################################################
+    # Build
+    ###########################################################################
+
+    package_file="$(kuzpkg_build_package \
+        "$builddir" \
+        "$package")"
+
+    ###########################################################################
+    # Install
+    ###########################################################################
+
+    kuzpkg_install_package "$package_file"
+
+    ###########################################################################
+    # Cleanup
+    ###########################################################################
+
+    rm -rf "$builddir"
+
+    kuzpkg_msg \
+        "Successfully built and installed ${package}-${version}"
+
+    return 0
+}
+
+
+###############################################################################
 # warpInstall
-
 #
-
+# LFS/JHALFS compatibility wrapper.
+#
 # warpInstall intentionally performs exactly the same operation as
-
 # packInstall.
+###############################################################################
 
-#
-
-# Keeping this as a function rather than a simple shell alias means
-
-# callers can invoke either name from JHALFS scripts.
-
-# ----------------------------------------------------------------------
-
-warpInstall() {
-packInstall "$@"
+warpInstall()
+{
+    packInstall "$@"
 }
+
+
+###############################################################################
+# Script invocation
+###############################################################################
+
+if [ "${BASH_SOURCE[0]}" = "$0" ]; then
+    packInstall "$@"
+fi
